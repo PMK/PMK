@@ -6,6 +6,7 @@
  * @copyright (c)2009 Patrick Klaassen
  * @since 28-03-2009
  * @version 1.0
+ * @license MIT-license
  */
 class ShoutcastStreamInfo {
 	
