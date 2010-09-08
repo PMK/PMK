@@ -25,12 +25,12 @@ shopt -s checkwinsize
 export EDITOR=vim
 color_prompt=yes
 export GREP_OPTIONS='--color=auto'
-
+export SVN_EDITOR='${EDITOR}'
 
 #binding
 bind `set completion-ignore-case on`
-#bind `set show-all-if-ambiguous on`
-
+#bind `set show-all-if-ambiguous on` # show list auto, without double tab
+bind `set bell-style none` # no bell
 
 
 # set path
@@ -103,11 +103,31 @@ alias l='ls -CF'
 
 
 # aliases for git
-alias gittlg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
-alias gittup='git pull'
-alias gittst='git status'
-alias gittco='git checkout'
-alias gittci='git commit'
+alias gitt-lg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
+alias gitt-up='git pull --rebase && git push origin master'
+alias gitt-st='git status'
+alias gitt-ci='git commit -v'
+alias gitt-br='git branch -a'
+
+function gitt-co {
+	if [ -z "$1" ]; then
+		git checkout master
+	else
+		git checkout $1
+	fi
+}
+
+# other aliases from: http://dotfiles.org/~jacqui/.bashrc
+alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
+alias systail='tail -f /var/log/system.log'
+alias top='top -o cpu'
+
+# Shows most used commands, cool script I got this from: http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
+alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
+
+
+# alias for this file. When done it will be loaded in current shell
+alias bashrc='vim ~/.bashrc && source ~/.bashrc'
 
 
 # Alias definitions.
