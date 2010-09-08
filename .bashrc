@@ -108,7 +108,7 @@ alias gitt-up='git pull --rebase && git push origin master'
 alias gitt-st='git status'
 alias gitt-ci='git commit -v'
 alias gitt-br='git branch -a'
-
+alias gitt-pom='git push origin master'
 function gitt-co {
 	if [ -z "$1" ]; then
 		git checkout master
