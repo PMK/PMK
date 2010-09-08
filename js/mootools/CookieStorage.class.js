@@ -6,6 +6,12 @@
  * @since 22-07-2010
  * @version 1.0
  * @license MIT-license
+ * 
+ * @example:
+ * var cookie = new CookieStorage();
+ * cookie.writeData('keyname', 'value');
+ * alert(cookie.readData('keyname'));
+ * cookie.erase();
  */
 CookieStorage = new Class({
 
