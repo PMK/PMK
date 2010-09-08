@@ -24,6 +24,14 @@ shopt -s checkwinsize
 # set vars
 export EDITOR=vim
 color_prompt=yes
+export GREP_OPTIONS='--color=auto'
+
+
+#binding
+bind `set completion-ignore-case on`
+#bind `set show-all-if-ambiguous on`
+
+
 
 # set path
 if [ -d  /var/lib/gems/1.8/bin/ ] ; then
@@ -93,6 +101,15 @@ alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
+
+# aliases for git
+alias gittlg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
+alias gittup='git pull'
+alias gittst='git status'
+alias gittco='git co'
+alias gittci='git commit'
+
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -130,6 +147,57 @@ extract () {
   else
       echo "'$1' is not a valid file!"
   fi
+}
+
+#packing
+pack() {
+	if [[ -f $2 && -n $1 ]]; then
+		case $1 in
+			*.tar.bz2)	tar -cjf "$1" "$2" ;;
+			*.tar.gz)	tar -pczf $1 $2 ;;
+			*.rar)		rar a $1 $2 ;;
+			*.tar)		tar -cf $1 $2 ;;
+			*.tbz2)		tar -jcvf $1 $2 ;;
+			*.tgz)		tar -zcvf $1 $2 ;;
+			*.zip)		zip $1 $2 ;;
+			*.7z)		7z a $1 $2 ;;
+			*)		echo "don't know how to pack '$1'..." ;;
+		esac
+	else
+		echo "Usage: pack <archive> <dir/file>"
+		echo "Automagically detects what kind of archive you want to use."
+		echo "Supports:"
+		echo -e "\t.tar.gz"
+		echo -e "\t.rar"
+		echo -e "\t.tar"
+		echo -e "\t.tbz2"
+		echo -e "\t.tgz"
+		echo -e "\t.zip"
+		echo -e "\t.7z"
+	fi
+}
+
+#dir size
+function ds() {
+	echo 'Size of directories in MB'
+	if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+		echo 'You did not specify a directy, using pwd'
+		DIR=$(pwd)
+		find $DIR -maxdepth 1 -type d -exec du -sm \{\} \; 2>/dev/null | sort -nr
+	else
+		find $1 -maxdepth 1 -type d -exec du -sm \{\} \; 2>/dev/null | sort -nr
+	fi
+}
+
+#file size
+function filesize() {
+	if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+		DIR=$(pwd)
+	else
+		DIR=$1
+	fi
+	echo "Biggest files in $DIR:"
+	find $DIR -maxdepth 1 -type f -exec du -sm \{\} \; 2>/dev/null | sort -nr
 }
 
 # Define a few Colours
