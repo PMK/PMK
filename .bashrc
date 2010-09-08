@@ -106,7 +106,7 @@ alias l='ls -CF'
 alias gittlg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
 alias gittup='git pull'
 alias gittst='git status'
-alias gittco='git co'
+alias gittco='git checkout'
 alias gittci='git commit'
 
 
