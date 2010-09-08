@@ -103,6 +103,7 @@ alias l='ls -CF'
 
 
 # aliases for git
+# git lg taken from: http://www.jukie.net/bart/blog/pimping-out-git-log
 alias gitt-lg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
 alias gitt-up='git pull --rebase && git push origin master'
 alias gitt-st='git status'
