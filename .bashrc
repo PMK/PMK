@@ -26,11 +26,12 @@ export EDITOR=vim
 color_prompt=yes
 export GREP_OPTIONS='--color=auto'
 export SVN_EDITOR='${EDITOR}'
+export GIT_EDITOR='${EDITOR}'
 
 #binding
-bind `set completion-ignore-case on`
-#bind `set show-all-if-ambiguous on` # show list auto, without double tab
-bind `set bell-style none` # no bell
+bind "set completion-ignore-case on"
+bind "set show-all-if-ambiguous on" # show list auto, without double tab
+bind "set bell-style none" # no bell
 
 
 # set path
@@ -105,6 +106,8 @@ alias l='ls -CF'
 # aliases for git
 # git lg taken from: http://www.jukie.net/bart/blog/pimping-out-git-log
 alias gitt-lg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
+# git remove_missing_files taken from: http://github.com/faithfulgeek/dotfiles/blob/master/.bashrc
+alias gitt-remove_missing_files="gs | awk '/deleted:(.*)/ {print $3}' | xargs git rm"
 alias gitt-up='git pull --rebase && git push origin master'
 alias gitt-st='git status'
 alias gitt-ci='git commit -v'
@@ -120,8 +123,6 @@ function gitt-co {
 
 # other aliases from: http://dotfiles.org/~jacqui/.bashrc
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
-alias systail='tail -f /var/log/system.log'
-alias top='top -o cpu'
 
 # Shows most used commands, cool script I got this from: http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
 alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
