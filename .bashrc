@@ -222,6 +222,28 @@ function filesize() {
 	find $DIR -maxdepth 1 -type f -exec du -sm \{\} \; 2>/dev/null | sort -nr
 }
 
+#get $1 row
+function p {
+	awk ' { print $'$1' } '
+}
+
+#show content from file $1 between linenumber $2 and $3 (like head and tail but this is in the middle)
+function body {
+	if [ $# != 3 ]; then
+		echo "Usage: body [input-file] [start line number] [end line number]"
+		echo
+		echo "This function shows only the content of the input file between the"
+		echo "start line number and the end line number."
+		echo "(c) 2010 Patrick Klaassen"
+	else
+		if [ -e $1 ]; then
+			nl $1 | sed -n $2,$3p
+		else
+			echo "Error: file $1 does not exists"
+		fi
+	fi
+}
+
 # Define a few Colours
 BLACK='\e[0;30m'
 BLUE='\e[0;34m'
