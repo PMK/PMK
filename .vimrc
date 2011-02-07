@@ -1,8 +1,8 @@
 set encoding=utf-8
 
 syntax on "turn on syntax highlighting
-colorscheme elflord
-
+set background=dark
+colorscheme eclipse
 
 set showcmd "show incomplete cmds down the bottom
 set showmode "show current mode down the bottom
@@ -40,9 +40,18 @@ set smarttab
 set softtabstop=4
 set shiftwidth=4
 
+set virtualedit=onemore " Allow for cursor beyond last
+
 " Make tabs work like we're used to
 map <C-Tab> :tabnext<CR>
 map <C-S-Tab> :tabprev<CR>
+
+" Yank from the cursor to the end of the line, to be consistent with C and D.
+" Taken from http://github.com/spf13/spf13-vim/blob/master/.vimrc
+nnoremap Y y$
+
+" Make it so AutoCloseTag works for xml and xhtml files as well
+au FileType xhtml,xml ru ftplugin/html/autoclosetag.vim
 
 filetype plugin indent on "enable automatic filetype detection, filetype-specific plugins/indentation
 
