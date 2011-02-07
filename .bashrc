@@ -108,7 +108,7 @@ alias l='ls -CF'
 alias gitt-lg='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit --date=relative'
 # git remove_missing_files taken from: http://github.com/faithfulgeek/dotfiles/blob/master/.bashrc
 alias gitt-remove_missing_files="gs | awk '/deleted:(.*)/ {print $3}' | xargs git rm"
-alias gitt-up='git pull --rebase && git push origin master'
+alias gitt-up='git pull --rebase origin test && git push origin master'
 alias gitt-st='git status'
 alias gitt-ci='git commit -v'
 alias gitt-br='git branch -a'
@@ -130,6 +130,14 @@ alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' 
 
 # alias for this file. When done it will be loaded in current shell
 alias bashrc='vim ~/.bashrc && source ~/.bashrc'
+
+
+# pbcopy/pbpaste from mac
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+
+# flush DNS
+alias flushdns='sudo /etc/init.d/nscd restart'
 
 
 # Alias definitions.
@@ -241,6 +249,24 @@ function body {
 		else
 			echo "Error: file $1 does not exists"
 		fi
+	fi
+}
+
+function createMysqlDb {
+	EXPECTED_ARGS=3
+	E_BADARGS=65
+	MYSQL=`which mysql`
+
+	Q1="CREATE DATABASE IF NOT EXISTS $1;"
+	Q2="GRANT ALL ON *.* TO '$2'@'localhost' IDENTIFIED BY '$3';"
+	Q3="FLUSH PRIVILEGES;"
+	SQL="${Q1}${Q2}${Q3}"
+
+	if [ $# -ne $EXPECTED_ARGS ]; then
+		echo "Usage: $0 dbname dbuser dbpass"
+		#exit $E_BADARGS
+	else
+		$MYSQL -uroot -p -e "$SQL"
 	fi
 }
 
