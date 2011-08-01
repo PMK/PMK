@@ -34,6 +34,46 @@ bind "set show-all-if-ambiguous on" # show list auto, without double tab
 bind "set bell-style none" # no bell
 
 
+# Colors
+txtblk='\e[0;30m' # Black - Regular
+txtred='\e[0;31m' # Red
+txtgrn='\e[0;32m' # Green
+txtylw='\e[0;33m' # Yellow
+txtblu='\e[0;34m' # Blue
+txtpur='\e[0;35m' # Purple
+txtcyn='\e[0;36m' # Cyan
+txtwht='\e[0;37m' # White
+
+bldblk='\e[1;30m' # Black - Bold
+bldred='\e[1;31m' # Red
+bldgrn='\e[1;32m' # Green
+bldylw='\e[1;33m' # Yellow
+bldblu='\e[1;34m' # Blue
+bldpur='\e[1;35m' # Purple
+bldcyn='\e[1;36m' # Cyan
+bldwht='\e[1;37m' # White
+
+unkblk='\e[4;30m' # Black - Underline
+undred='\e[4;31m' # Red
+undgrn='\e[4;32m' # Green
+undylw='\e[4;33m' # Yellow
+undblu='\e[4;34m' # Blue
+undpur='\e[4;35m' # Purple
+undcyn='\e[4;36m' # Cyan
+undwht='\e[4;37m' # White
+
+bakblk='\e[40m'   # Black - Background
+bakred='\e[41m'   # Red
+badgrn='\e[42m'   # Green
+bakylw='\e[43m'   # Yellow
+bakblu='\e[44m'   # Blue
+bakpur='\e[45m'   # Purple
+bakcyn='\e[46m'   # Cyan
+bakwht='\e[47m'   # White
+
+txtrst='\e[0m'    # Text Reset
+
+
 # set path
 if [ -d  /var/lib/gems/1.8/bin/ ] ; then
 	PATH=/var/lib/gems/1.8/bin/:"${PATH}"
@@ -139,6 +179,10 @@ alias pbpaste='xsel --clipboard --output'
 # flush DNS
 alias flushdns='sudo /etc/init.d/nscd restart'
 
+# Search recursive in files
+function searchr() {
+	grep -H -r "$1" . 
+}
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -252,6 +296,24 @@ function body {
 	fi
 }
 
+#check the IPs connected to your server via port 80
+function listConnectedIps {
+	if [ $# -ne 1 ]; then
+		echo "Usage: listConnectedIps 80"
+	else
+		netstat -anpl|grep :$1|awk {'print $5'}|cut -d":" -f1|sort|uniq -c|sort -n
+	fi
+}
+
+#count files in directory or giving directory
+function countFilesInDir {
+	if [ $# -ne 1 ]; then
+		ls | wc -l
+	else
+		ls $1 | wc -l
+	fi
+}
+
 function createMysqlDb {
 	EXPECTED_ARGS=3
 	E_BADARGS=65
@@ -269,25 +331,6 @@ function createMysqlDb {
 		$MYSQL -uroot -p -e "$SQL"
 	fi
 }
-
-# Define a few Colours
-BLACK='\e[0;30m'
-BLUE='\e[0;34m'
-GREEN='\e[0;32m'
-CYAN='\e[0;36m'
-RED='\e[0;31m'
-PURPLE='\e[0;35m'
-BROWN='\e[0;33m'
-LIGHTGRAY='\e[0;37m'
-DARKGRAY='\e[1;30m'
-LIGHTBLUE='\e[1;34m'
-LIGHTGREEN='\e[1;32m'
-LIGHTCYAN='\e[1;36m'
-LIGHTRED='\e[1;31m'
-LIGHTPURPLE='\e[1;35m'
-YELLOW='\e[1;33m'
-WHITE='\e[1;37m'
-NC='\e[0m' # No Color
 
 #Use human-readable filesizes
 alias du="du -h"
@@ -336,7 +379,7 @@ define (){
 	rm -f /tmp/templookup.txt
 }
 
-echo
-echo -ne "${LIGHTCYAN}"; cal -3
-echo -ne "${LIGHTPURPLE}"; weather -i EHAM
+#echo
+#echo -ne "${LIGHTCYAN}"; cal -3
+#echo -ne "${LIGHTPURPLE}"; weather -i EHAM
 echo
