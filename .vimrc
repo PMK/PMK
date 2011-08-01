@@ -2,7 +2,7 @@ set encoding=utf-8
 
 syntax on "turn on syntax highlighting
 set background=dark
-colorscheme eclipse
+colorscheme elflord
 
 set showcmd "show incomplete cmds down the bottom
 set showmode "show current mode down the bottom
