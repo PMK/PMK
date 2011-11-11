@@ -1,3 +1,15 @@
+# -------------------------------------------------------------
+# Source global definitions (if any)
+# -------------------------------------------------------------
+
+# Read /etc/bashrc, if present.
+if [ -f /etc/bashrc ]; then
+	source /etc/bashrc
+fi
+
+
+
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -9,17 +21,20 @@
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
 
-# append to the history file, don't overwrite it
+# Bash options
 shopt -s histappend
+shopt -s cdspell
+shopt -s extglob
+shopt -s histappend histreedit histverify
+shopt -s cmdhist
+shopt -s extglob
+shopt -s sourcepath
+shopt -s no_empty_cmd_completion
+shopt -s checkwinsize
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
 
 # set vars
 export EDITOR=vim
@@ -32,7 +47,6 @@ export GIT_EDITOR='${EDITOR}'
 bind "set completion-ignore-case on"
 bind "set show-all-if-ambiguous on" # show list auto, without double tab
 bind "set bell-style none" # no bell
-
 
 # Colors
 txtblk='\e[0;30m' # Black - Regular
@@ -74,6 +88,10 @@ bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 
 
+# Grep colors
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR=$bldgrn
+
 # set path
 if [ -d  /var/lib/gems/1.8/bin/ ] ; then
 	PATH=/var/lib/gems/1.8/bin/:"${PATH}"
@@ -108,6 +126,16 @@ if [ -n "$force_color_prompt" ]; then
 	color_prompt=
     fi
 fi
+
+# Overwrite exit bash script
+function _exit() {
+	echo -e "${txtred}Bye."
+}
+trap _exit EXIT
+
+
+
+
 
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -329,6 +357,15 @@ function createMysqlDb {
 		#exit $E_BADARGS
 	else
 		$MYSQL -uroot -p -e "$SQL"
+	fi
+}
+
+# Extract audio from video
+function mp4-to-mp3 {
+	if [ $# -ne 2 ]; then
+		echo "Usage: mp4-to-mp3 /path/to/input.mp4 /path/to/output.mp3"
+	else
+		faad -w -f 2 $1.mp4 | lame -r -h -b 192 - $2.mp3
 	fi
 }
 
